@@ -4,8 +4,10 @@
 *:after {
   box-sizing: border-box;
 }
-
-
+:root {
+  --primary-background: #fff;
+  --main-accent: rgb(3, 67, 5);
+}
 
 /* General Styling */
 body {
@@ -103,7 +105,6 @@ h1 {
 }
 
 #information section {
-  width: 100%;
   background-color: #f4f4f4;
   padding: 10px;
   border-radius: 5px;
@@ -161,12 +162,13 @@ footer {
 }
 
   #wrapper {
-    width: 80%;
+    width: 75vw;
+    max-width: 1200px;
     margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 10px;
-    border: 5px solid #608ea2;
+    border: 5px solid rgb(1, 59, 3);
     background-color: #f4f4f4;
   }
 
