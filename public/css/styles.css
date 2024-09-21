@@ -59,7 +59,7 @@ nav ul li:hover {
 
 /* main */
 main {
-  padding: 20px;
+  padding: 30px;
 }
 
 h1 {
@@ -80,7 +80,6 @@ h1 {
   color: #54da48;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-width: 150px;
 }
 
