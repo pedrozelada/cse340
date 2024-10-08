@@ -8,6 +8,10 @@ router.use("/css", express.static(__dirname + "public/css"));
 router.use("/js", express.static(__dirname + "public/js"));
 router.use("/images", express.static(__dirname + "public/images"));
 
+router.get('/trigger-error', (req, res, next) => {
+    next(new Error('Intentional server crash!'));
+  });
+
 module.exports = router;
 
 

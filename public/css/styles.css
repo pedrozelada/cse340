@@ -43,18 +43,27 @@ nav ul {
   padding: 0;
   margin: 0;
   justify-content: space-around;
+  
 }
 
 nav ul li {
   list-style: none;
   color: white;
   padding: 10px;
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
+  
 }
 
-nav ul li:hover {
-  background-color: #354249;
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+
+nav ul li :hover {
+  background-color: white;
+  color: rgb(3, 67, 5);
 }
 
 /* main */
@@ -150,6 +159,57 @@ footer {
 }
 
 
+/* Cars */
+#inv-display{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-gap: 40px;
+  place-items: center;
+  text-align: center;
+}
+
+#inv-display li{
+  list-style: none;
+  height: 300px;
+  border-radius: 5%;
+  border: 1px solid rgba(0, 0, 0, .1);
+  box-shadow: 0 0 30px #777;
+  padding: 10px;
+  background-color: #e2e2e2;
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between; 
+}
+
+#inv-display li img {
+  width: 100%;
+  border-radius: 5%;
+  border: 1px solid #ccc;
+}
+
+.namePrice {
+  margin-top: auto; 
+}
+
+.namePrice a {
+  font-size: 20px; 
+  display: block; 
+}
+
+.namePrice hr {
+  height: 5px;
+  background-color: #000000; 
+}
+
+/*Detail Cars */
+
+#informationCar img {
+  max-width: 100%;
+}
+
+#error {
+  font-size: 20px;
+}
 
 @media only screen and (min-width: 520px) {
   body {
@@ -187,6 +247,11 @@ footer {
     width: 98%;
     margin: auto;
   }
+  nav ul li {
+    padding: 10px;
+    font-size: 20px;
+  }
+  
 
   #message {
     max-width: 300px;
@@ -209,5 +274,12 @@ footer {
     margin-top: 20px;
     width: 180px;
     height: 110px;
+  }
+
+  /*Detail */
+  #informationCar {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 20px;
   }
 }
