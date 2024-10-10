@@ -15,6 +15,39 @@ const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities/")
 //week3
 const detailRoute = require("./routes/detailRoute")
+//week4 DB connection
+const session = require("express-session")
+const pool = require('./database/')
+// account
+const accountRoute = require("./routes/accountRoute")
+//body Parser
+const bodyParser = require("body-parser")
+
+
+/* week4***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+//week4 Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+// body Parser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 
 /* ***********************
  * View Engine and Templates
@@ -32,11 +65,14 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 app.use("/inv", inventoryRoute)
 //week3
 app.use("/inv", detailRoute)
+//week4 
+app.use("/account", accountRoute)
+
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Page Not Found. Oops! Something went wrong... 😬'})
 })
-
+/
 
 /* ***********************
 * Express Error Handler

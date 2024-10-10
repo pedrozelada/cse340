@@ -1,0 +1,58 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+
+<div class="login-container">
+    <form id="registerForm" action="/account/register" method="post">
+      <label for="fname">First Name:</label>
+      <input type="text" name="account_firstname" id="fname" autocomplete="given-name" placeholder="Enter your first name" required>
+
+      <label for="lname">Last Name:</label>
+      <input type="text" name="account_lastname" id="lname" autocomplete="family-name" placeholder="Enter your last name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" name="account_email" id="email" placeholder="Enter a valid email address" required>
+          
+      <label for="password">Password:</label>
+      <div class="password-container">
+        <input type="password" name="account_password" id="password" placeholder="Enter your password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+       <span id="togglePassword" class="toggle-password">
+          <i class="fas fa-eye"></i>
+       </span>
+      </div>
+      <span id="passwordR">*Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
+        <button type="submit">Register</button>
+      </form>
+  
+    
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<script>
+  const togglePassword = document.querySelector("#togglePassword");
+  const passwordInput = document.querySelector("#password");
+
+  togglePassword.addEventListener("click", function () {
+    // Alternar entre password y text
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    
+    // Cambiar el ícono
+    this.querySelector("i").classList.toggle("fa-eye");
+    this.querySelector("i").classList.toggle("fa-eye-slash");
+  });
+
+  
+</script>
