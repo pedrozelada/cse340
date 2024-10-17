@@ -22,6 +22,7 @@ const pool = require('./database/')
 const accountRoute = require("./routes/accountRoute")
 //body Parser
 const bodyParser = require("body-parser")
+const managementRoute = require("./routes/managementRoute") // week4 management
 
 
 /* week4***********************
@@ -67,6 +68,7 @@ app.use("/inv", inventoryRoute)
 app.use("/inv", detailRoute)
 //week4 
 app.use("/account", accountRoute)
+app.use("/inv", managementRoute) // week4 management
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {

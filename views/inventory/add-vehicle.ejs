@@ -1,0 +1,49 @@
+<% if (title) { %>
+  <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+  } %>
+<% if (errors) { %>
+<ul class="notice">
+<% errors.array().forEach(error => { %>
+ <li><%= error.msg %></li>
+<%  }) %>
+</ul>
+<% } %>
+
+<div class="login-container">
+  <form id="loginForm" action="/inv/add-vehicle" method="post">
+    <label for="classificationList">Classification</label>
+    <%- classification %>
+
+    <label for="inv_make">Make:</label>
+    <input type="text" name="inv_make" id="inv_make" placeholder="Min of 3 characters" required value="<%= locals.inv_make %>" pattern=".{3,}">
+
+    <label for="inv_model">Model:</label>
+    <input type="text" name="inv_model" id="inv_model" placeholder="Min of 3 characters" required value="<%= locals.inv_model %>" pattern=".{3,}">
+
+    <label for="inv_description">Description:</label>
+    <textarea id="inv_description" name="inv_description" required></textarea>
+
+    <label for="inv_image">Image Path:</label>
+    <input type="text" name="inv_image" id="inv_image" placeholder="Enter Image path" required value="/images/vehicles/no-image.png">
+
+    <label for="inv_thumbnail">Thumbnail Path:</label>
+    <input type="text" name="inv_thumbnail" id="inv_thumbnail" placeholder="Enter Thumbnail path" required value="/images/vehicles/no-image.png">
+
+    <label for="inv_price">Price:</label>
+    <input type="text" name="inv_price" id="inv_price" placeholder="Decimal or integer" required value="<%= locals.inv_price %>" pattern="^\d+(\.\d{1,2})?$">
+
+    <label for="inv_year">Year:</label>
+    <input type="text" name="inv_year" id="inv_year" placeholder="4 digit year" required value="<%= locals.inv_year %>" pattern="^\d{4}$">
+
+    <label for="inv_miles">Miles:</label>
+    <input type="text" name="inv_miles" id="inv_miles" placeholder="digits only" required value="<%= locals.inv_miles %>" pattern="^\d+$"> 
+
+    <label for="inv_color">Color:</label>
+    <input type="text" name="inv_color" id="inv_color" required value="<%= locals.inv_color %>">
+
+    <button type="submit">Add Vehicle</button>
+  </form>
+
+</div>
