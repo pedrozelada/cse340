@@ -23,7 +23,8 @@ router.post(
 // Process registration vehicle
 router.post(
   "/add-vehicle",
-  
+  regValidate.vehicleRegistrationRules(),
+  regValidate.checkVehicleData,
   utilities.handleErrors(managementController.registerVehicle)
 )
 module.exports = router;

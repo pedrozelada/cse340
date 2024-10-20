@@ -231,7 +231,7 @@ footer a {
   color: #333;
 }
 
-.login-container input[type="email"], input[type="password"], input[type="text"] {
+.login-container input[type="email"], input[type="password"], input[type="text"], select, textarea {
   width: 100%;
   display: block;
   padding: 10px;
@@ -302,7 +302,7 @@ footer a {
   background-color: #e6ffe6; 
 }
 .notice {
-  color: red;
+  color: rgb(200, 8, 8);
 }
 
 @media only screen and (min-width: 520px) {
