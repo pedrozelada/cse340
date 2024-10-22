@@ -3,6 +3,7 @@ const { body, validationResult } = require("express-validator")
 const managementModel = require("../models/inventory-model")
 const validate = {}
 
+const currentYear = new Date().getFullYear();
 /*  **********************************
   *  Registration Data Validation Rules for Classification 
   * ********************************* */
@@ -92,11 +93,23 @@ validate.vehicleRegistrationRules = () => {
       .isFloat({ min: 0 })
       .withMessage("Please provide a valid price as a decimal or integer."),
 
-    // year is required and must be a valid 4-digit number
-    body("inv_year")
+      body("inv_year")
       .trim()
-      .isInt({ min: 1886, max: new Date().getFullYear() })
-      .withMessage("Please provide a valid 4-digit year."),
+      .isInt({ min: 1886, max: currentYear })
+      .withMessage("Please provide a valid 4-digit year.")
+      .custom((value) => {
+        const yearString = value.toString();
+        if (yearString.length !== 4) {
+          throw new Error("Year must be a 4-digit number.");
+        }
+        if (value < 1886) {
+          throw new Error("Cars didn't exist before 1886.");
+        }
+        if (value > currentYear) {
+          throw new Error("That year hasn't come yet.");
+        }
+        return true;
+      }),
 
     // miles is required and must be an integer
     body("inv_miles")
@@ -121,7 +134,7 @@ validate.checkVehicleData = async (req, res, next) => {
   errors = validationResult(req)
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
-    let classification = await utilities.buildClassificationList()  // Build classification list for the dropdown again
+    let classification = await utilities.buildClassificationList(classification_id)  // Build classification list for the dropdown again
     res.render("inventory/add-vehicle", {
       errors,
       title: "Add Vehicle",

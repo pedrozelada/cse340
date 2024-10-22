@@ -24,7 +24,10 @@ async function buildAddClassification(req, res, next) {
 //Deliver add Vehicle view
 async function buildAddVehicle(req, res, next) {
   let nav = await utilities.getNav()
-  let classification = await utilities.buildClassificationList()
+  let classification_id = req.body.classification_id || null
+
+  let classification = await utilities.buildClassificationList(classification_id)
+
   res.render("inventory/add-vehicle", {
     title: "Add Vehicle",
     nav,
