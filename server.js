@@ -23,6 +23,7 @@ const accountRoute = require("./routes/accountRoute")
 //body Parser
 const bodyParser = require("body-parser")
 const managementRoute = require("./routes/managementRoute") // week4 management
+const cookieParser = require("cookie-parser")  // week5 Login and cookie
 
 
 /* week4***********************
@@ -49,6 +50,11 @@ app.use(function(req, res, next){
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+// week5
+app.use(cookieParser())
+app.use(utilities.checkJWTToken) // week 5 token
+
+
 
 /* ***********************
  * View Engine and Templates
@@ -56,6 +62,8 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") //not at views root
+
+
 /* ***********************
  * Routes
  *************************/
@@ -69,6 +77,8 @@ app.use("/inv", detailRoute)
 //week4 
 app.use("/account", accountRoute)
 app.use("/inv", managementRoute) // week4 management
+
+
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {

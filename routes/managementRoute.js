@@ -11,6 +11,9 @@ router.get("/", utilities.handleErrors(managementController.buildManagement));
 router.get("/add-classification", utilities.handleErrors(managementController.buildAddClassification));
 // Route to build Add vehicle
 router.get("/add-vehicle", utilities.handleErrors(managementController.buildAddVehicle));
+// Route to edit vehicle
+router.get("/edit/:classificationId", utilities.handleErrors(managementController.buildEditVehicle));
+
 
 // Process registration classification
 router.post(
@@ -26,5 +29,13 @@ router.post(
   regValidate.vehicleRegistrationRules(),
   regValidate.checkVehicleData,
   utilities.handleErrors(managementController.registerVehicle)
+)
+
+// Process update vehicle
+router.post(
+  "/update",
+  regValidate.vehicleRegistrationRules(),
+  regValidate.checkUpdateData, 
+  utilities.handleErrors(managementController.updateVehicle)
 )
 module.exports = router;

@@ -305,6 +305,39 @@ footer a {
   color: rgb(200, 8, 8);
 }
 
+/*table*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+th {
+  background-color: #4CAF50; 
+  color: white;             
+  padding: 12px;            
+  text-align: left;         
+}
+
+td {
+  border: 1px solid #ddd; 
+  padding: 8px;             
+}
+
+tr:hover {
+  background-color: #f1f1f1; 
+}
+
+a {
+  color: #007BFF;         
+  text-decoration: none;    
+}
+
+a:hover {
+  text-decoration: underline; 
+}
+
 @media only screen and (min-width: 520px) {
   body {
     background-image: url('/images//site/small_check.jpg');
@@ -376,5 +409,9 @@ footer a {
     display: grid;
     grid-template-columns: 40% 60%;
     gap: 20px;
+  }
+  /*table*/
+  table {
+    font-size: 16px;
   }
 }
