@@ -13,6 +13,8 @@ router.get("/add-classification", utilities.handleErrors(managementController.bu
 router.get("/add-vehicle", utilities.handleErrors(managementController.buildAddVehicle));
 // Route to edit vehicle
 router.get("/edit/:classificationId", utilities.handleErrors(managementController.buildEditVehicle));
+// Route to delete vehicle
+router.get("/delete/:classificationId", utilities.handleErrors(managementController.buildDeleteVehicle));
 
 
 // Process registration classification
@@ -38,4 +40,13 @@ router.post(
   regValidate.checkUpdateData, 
   utilities.handleErrors(managementController.updateVehicle)
 )
+
+// Process delete vehicle
+router.post(
+  "/delete",
+  utilities.handleErrors(managementController.deleteVehicle)
+)
+
+
+
 module.exports = router;

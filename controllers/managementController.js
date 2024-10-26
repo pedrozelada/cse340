@@ -171,7 +171,7 @@ async function updateVehicle(req, res, next) {
   } else {
     const classificationSelect = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`
-    req.flash("notice", "Sorry, the insert failed.")
+    req.flash("notice", "Sorry, the update failed.")
     res.status(501).render("inventory/edit-inventory", {
     title: "Edit " + itemName,
     nav,
@@ -192,4 +192,47 @@ async function updateVehicle(req, res, next) {
   }
 }
 
-module.exports = { buildManagement, buildAddClassification, buildAddVehicle, registerClassification, registerVehicle, buildEditVehicle, updateVehicle }
+//Deliver edit vehicle view
+async function buildDeleteVehicle(req, res, next) {
+  const vehicle_id = parseInt(req.params.classificationId)
+  let nav = await utilities.getNav()
+  const itemData = await inventoryModel.getInventoryById(vehicle_id)
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+  res.render("inventory/delete-confirm", {
+    title: "Delete " + itemName,
+    nav,
+    errors: null,
+    inv_id: itemData.inv_id,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_price: itemData.inv_price,
+  })
+}
+
+/* ****************************************
+*  Process Delete Vehicle
+* *************************************** */
+async function deleteVehicle(req, res, next) {
+  let nav = await utilities.getNav()
+  const inv_id = parseInt(req.body.inv_id)
+
+  const deleteResult = await inventoryModel.deleteVehicle(
+    inv_id
+  )
+
+  if (deleteResult) {
+
+    req.flash("notice", `The deletion was successful.`)
+    res.redirect("/inv/")
+    
+  } else {
+    req.flash("notice", "Sorry, the delete failed.")
+    res.redirect(`/inv/delete/${inv_id}`); 
+  }
+}
+
+
+
+module.exports = { buildManagement, buildAddClassification, buildAddVehicle, registerClassification, registerVehicle, 
+  buildEditVehicle, updateVehicle, buildDeleteVehicle, deleteVehicle }
