@@ -8,8 +8,9 @@ async function buildManagement(req, res, next) {
     res.render("inventory/management", {
       title: "Vehicle Management",
       nav,
-      errors: null,
       classificationSelect,
+      errors: null,
+      
     })
   }
 
@@ -58,6 +59,7 @@ async function registerClassification(req, res, next) {
     res.status(201).render("inventory/management", {
       title: "Vehicle Management",
       nav,
+      
       errors: null,
     })
   } else {
@@ -92,12 +94,14 @@ async function registerVehicle(req, res, next) {
 
   if (regResult) {
     let nav = await utilities.getNav()
+    const classificationSelect = await utilities.buildClassificationList()
     req.flash(
       "notice",
       `Congratulations, you have registered the vehicle ${inv_make} ${inv_model}.`
     )
     res.status(201).render("inventory/management", {
       title: "Vehicle Management",
+      classificationSelect,
       nav,
     })
   } else {
@@ -192,7 +196,7 @@ async function updateVehicle(req, res, next) {
   }
 }
 
-//Deliver edit vehicle view
+//Deliver delete vehicle view
 async function buildDeleteVehicle(req, res, next) {
   const vehicle_id = parseInt(req.params.classificationId)
   let nav = await utilities.getNav()

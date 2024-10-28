@@ -31,6 +31,43 @@ body {
   text-decoration: none;
   color: rgb(3, 67, 5);
 }
+
+#tools {
+  display: flex;
+  gap: 10px;
+}
+
+/* Welcome link styling */
+#tools .welcome-link {
+  color: #2f7f1b; 
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.welcome-link:hover {
+  text-decoration: underline;
+}
+
+/* Logout link styling */
+.logout-link {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.logout-link:hover {
+  text-decoration: underline;
+}
+
+/* My Account link styling */
+.account-link {
+  color: #007BFF; /* Blue for account link */
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.account-link:hover {
+  text-decoration: underline;
+}
 /* nav */
 nav {
   width: 100%;
@@ -175,6 +212,7 @@ footer a {
 #inv-display li{
   list-style: none;
   height: 300px;
+  width: auto;
   border-radius: 5%;
   border: 1px solid rgba(0, 0, 0, .1);
   box-shadow: 0 0 30px #777;
@@ -186,7 +224,7 @@ footer a {
 }
 
 #inv-display li img {
-  width: 100%;
+  max-width: 100%;
   border-radius: 5%;
   border: 1px solid #ccc;
 }
@@ -338,6 +376,12 @@ a:hover {
   text-decoration: underline; 
 }
 
+.linkstyle {
+  color: rgb(0, 106, 255);
+}
+
+
+
 @media only screen and (min-width: 520px) {
   body {
     background-image: url('/images//site/small_check.jpg');
@@ -355,7 +399,7 @@ a:hover {
     margin-right: auto;
     border-radius: 10px;
     border: 5px solid rgb(1, 59, 3);
-    background-color: #f4f4f4;
+    background-color: #ffffff;
   }
 
   #hero-image{

@@ -138,4 +138,103 @@ async function buildAccount(req, res, next) {
 
 
 
-module.exports = { buildLogin, buildRegister , registerAccount, accountLogin, buildAccount}
+/* ****************************************
+ *  Update Account view
+ * ************************************ */
+async function buildUpdateAccount(req, res, next) {
+  const account_id = parseInt(req.params.accountId)
+  let nav = await utilities.getNav()
+    res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: null,
+    })
+}
+
+
+/* ****************************************
+*  Process Update User
+* *************************************** */
+async function updateUser(req, res, next) {
+  let nav = await utilities.getNav()
+  const {account_id, account_firstname, account_lastname, account_email} = req.body
+  const updateResult = await accountModel.updateUser(
+    account_id,  
+    account_firstname,
+    account_lastname,
+    account_email  
+  )
+  if (updateResult) {
+    req.flash("notice", `Congratulations, your information has been updated`)
+    res.locals.account_firstname = account_firstname;
+    res.locals.account_lastname = account_lastname;
+    res.locals.account_email = account_email;
+      // update token
+    const updatedToken = jwt.sign(
+      {
+        account_id: account_id,
+        account_firstname: account_firstname,
+        account_lastname: account_lastname,
+        account_email: account_email
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: 3600 * 1000 }
+    );
+    res.cookie("jwt", updatedToken, { httpOnly: true, maxAge: 3600 * 1000 });
+    res.redirect("/account/")    
+  } else {
+    req.flash("notice", "Sorry, the update failed.")
+    res.status(501).render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: null,
+      account_id,  
+      account_firstname,
+      account_lastname,
+      account_email
+    })
+  }
+}
+
+
+/* ****************************************
+*  Process Update Password
+* *************************************** */
+async function updatePassword(req, res, next) {
+  let nav = await utilities.getNav()
+  const {account_id, account_password} = req.body
+
+  // Hash the password before storing
+  let hashedPassword
+  try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(account_password, 10)
+  } catch (error) {
+    req.flash("notice", 'Sorry, there was an error processing your request.')
+    res.status(500).render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: null,
+    })
+  }
+
+  const updateResult = await accountModel.updatePassword(
+    account_id,  
+    hashedPassword
+  )
+  if (updateResult) {
+    req.flash("notice", `Congratulations, your password has been updated`)
+    res.redirect("/account/")    
+  } else {
+    req.flash("notice", "Sorry, the password update failed.")
+    res.status(501).render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: null,
+    })
+  }
+}
+
+
+module.exports = { buildLogin, buildRegister , registerAccount, accountLogin, buildAccount, buildUpdateAccount, 
+  updateUser, updatePassword}

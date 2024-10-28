@@ -26,6 +26,19 @@ async function checkExistingEmail(account_email){
   }
 }
 
+  /* **********************
+ *   Check for existing email and Id
+ * ********************* */
+  async function checkExistingEmaild(account_id, account_email){
+    try {
+      const sql = "SELECT * FROM account WHERE account_email = $2 AND account_id != $1"
+      const email = await pool.query(sql, [ account_id, account_email])
+      return email.rowCount
+    } catch (error) {
+      return error.message
+    }
+  }
+
 /* *****************************
 * Return account data using email address
 * ***************************** */
@@ -40,5 +53,35 @@ async function getAccountByEmail (account_email) {
   }
 }
 
-module.exports = {registerAccount, checkExistingEmail, getAccountByEmail};
+// Update User
+async function updateUser(account_id, account_firstname, account_lastname, account_email  ){
+  try {
+   const sql = "UPDATE public.account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4 RETURNING *"
+   const data = await pool.query(sql, [
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_id
+  ])
+  return data.rows[0]
+} catch (error) {
+  console.error("model error: " + error)
+}
+}
+
+// Update Password
+async function updatePassword(account_id, account_password ){
+  try {
+   const sql = "UPDATE public.account SET account_password = $1 WHERE account_id = $2 RETURNING *"
+   const data = await pool.query(sql, [
+    account_password,
+    account_id
+  ])
+  return data.rows[0]
+} catch (error) {
+  console.error("model error: " + error)
+}
+}
+
+module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, updateUser, checkExistingEmaild , updatePassword};
 

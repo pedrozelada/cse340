@@ -129,9 +129,18 @@ Util.checkJWTToken = (req, res, next) => {
      }
      res.locals.accountData = accountData
      res.locals.loggedin = 1
+     // values
+    res.locals.isLoggedIn = true;
+    res.locals.account_firstname = accountData.account_firstname || "User"; 
+    res.locals.account_lastname = accountData.account_lastname;
+    res.locals.account_email = accountData.account_email;
+    res.locals.account_type = accountData.account_type;
+    res.locals.account_id = accountData.account_id;
      next()
     })
   } else {
+    res.locals.isLoggedIn = false;
+    res.locals.account_firstname = null;
    next()
   }
  }
@@ -148,4 +157,35 @@ Util.checkLogin = (req, res, next) => {
   }
  }
 
+
+/* ****************************************
+ *  Check employee or Admin
+ * ************************************ */
+ Util.checkAdminOrEmployee = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (!token) {
+    req.flash("notice", "Please log in to access this page.");
+    return res.redirect("/account/login");
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, accountData) => {
+    if (err) {
+      req.flash("notice", "Session expired. Please log in again.");
+      res.clearCookie("jwt");
+      return res.redirect("/account/login");
+    }
+
+    // Check 'Employee' or 'Admin'
+    if (accountData.account_type === 'Employee' || accountData.account_type === 'Admin') {
+      // Set account data and logged-in status for view rendering
+      res.locals.isLoggedIn = true;
+      res.locals.account_firstname = accountData.account_firstname;
+      res.locals.account_type = accountData.account_type;
+      return next();
+    } else {
+      req.flash("notice", "You do not have permission to access this page.");
+      return res.redirect("/account/login");
+    }
+  });
+}
 module.exports = Util
