@@ -166,16 +166,20 @@ async function updateUser(req, res, next) {
   )
   if (updateResult) {
     req.flash("notice", `Congratulations, your information has been updated`)
+
+    const accountData = await accountModel.getAccountById(account_id);
     res.locals.account_firstname = account_firstname;
     res.locals.account_lastname = account_lastname;
     res.locals.account_email = account_email;
+    res.locals.account_type = accountData.account_type;
       // update token
     const updatedToken = jwt.sign(
       {
         account_id: account_id,
         account_firstname: account_firstname,
         account_lastname: account_lastname,
-        account_email: account_email
+        account_email: account_email,
+        account_type: accountData.account_type
       },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: 3600 * 1000 }

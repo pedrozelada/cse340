@@ -83,5 +83,19 @@ async function updatePassword(account_id, account_password ){
 }
 }
 
-module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, updateUser, checkExistingEmaild , updatePassword};
+async function getAccountById(account_id) {
+  try {
+    const sql = "SELECT account_id, account_firstname, account_lastname, account_email, account_type FROM account WHERE account_id = $1";
+    const data = await pool.query(sql, [
+      account_id
+    ]);
+    return data.rows[0]
+  } catch (error) {
+    console.error("model error: " + error);
+  }
+}
+
+module.exports = {registerAccount, checkExistingEmail, getAccountByEmail, updateUser, checkExistingEmaild , updatePassword,
+  getAccountById
+};
 
