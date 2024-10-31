@@ -368,7 +368,7 @@ tr:hover {
 }
 
 a {
-  color: #007BFF;         
+  color: rgb(0, 106, 255);         
   text-decoration: none;    
 }
 
@@ -393,6 +393,20 @@ a:hover {
   margin: 4px; 
 }
 
+#warning {
+  padding: 8px;
+  background-color: #b9fbc4;
+}
+
+#reviewcontainer input:invalid, input:focus:invalid {
+  border: 2px solid red; 
+  background-color: #ffe6e6; 
+}
+
+#reviewcontainer input:valid {
+  border: 2px solid green; 
+  background-color: #e6ffe6; 
+}
 @media only screen and (min-width: 520px) {
   body {
     background-image: url('/images//site/small_check.jpg');

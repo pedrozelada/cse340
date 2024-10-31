@@ -1,11 +1,12 @@
 const utilities = require(".")
 const { body, validationResult } = require("express-validator")
 const invModel = require("../models/inventory-model")
+const reviewModel = require("../models/review-model")
 const validate = {}
 
 
 /* **********************************
-  *  Registration Data Validation Rules for Vehicle
+  *  Registration Data Validation Rules for Review
   * ********************************* */
 validate.reviewRegistrationRules = () => {
     return [
@@ -19,14 +20,14 @@ validate.reviewRegistrationRules = () => {
   }
   
   /* ******************************
-   * Check data and return errors or continue to registration for vehicle
+   * Check data and return errors or continue to add review
    * ***************************** */
   
 validate.checkReviewData = async (req, res, next) => {
-    const errors = validationResult(req);
-    
+    const {classification_id , review_text} = req.body
+    let errors = []
+    errors = validationResult(req)    
     if (!errors.isEmpty()) {
-      const classification_id = req.body.classification_id;  
       const data = await invModel.getInventoryById(classification_id);
       const section = await utilities.buildDetailSection(data);
       let nav = await utilities.getNav();
@@ -35,16 +36,49 @@ validate.checkReviewData = async (req, res, next) => {
   
       // Render the detail page with error messages and existing form data
       return res.render("./detail/detail", {
-        errors: errors.array(),       // Use errors.array() for EJS template
+        errors,
         title: className,
         nav,
         section,
         reviews,
         inv_id: data.inv_id,
-        review_text: req.body.review_text // Retain review_text value for form
+        review_text
       });
     }
   
     next();
   };
+module.exports = validate
+
+
+  /* ******************************
+   * Check data and return errors or continue to edit review
+   * ***************************** */
+  
+  validate.checkEditReviewData = async (req, res, next) => {
+    const {review_text, review_id } = req.body
+    let errors = []
+    errors = validationResult(req)    
+    if (!errors.isEmpty()) {
+      let nav = await utilities.getNav()
+      const reviewData = await reviewModel.getReviewById(review_id);
+
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = new Date(reviewData.review_date).toLocaleDateString("en-US", options);
+
+      const className = 'Edit ' + reviewData.inv_year + ' ' + reviewData.inv_make + ' ' + reviewData.inv_model + ' Review '
+      res.render("reviews/edit-review", { 
+        title: className, 
+        nav,
+        errors,
+        review_id,
+        review_date: formattedDate,
+        review_text
+        
+      })
+      return
+    }
+    next()
+  }
+  
 module.exports = validate

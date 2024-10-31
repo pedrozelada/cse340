@@ -24,7 +24,9 @@ router.get("/delete-review/:review_id", utilities.checkLogin, utilities.handleEr
 // Process a review
 router.post(
     "/edit-review", 
-    utilities.checkLogin, 
+    utilities.checkLogin,
+    revValidate.reviewRegistrationRules(),
+    revValidate.checkEditReviewData, 
     utilities.handleErrors(reviewController.updateReview));
 
 // Delete a review

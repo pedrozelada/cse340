@@ -21,7 +21,9 @@ detCont.buildByDetailId = async function (req, res, next) {
     section,
     reviews,
     inv_id: data.inv_id,
+    classification_id,
     errors: null
+    
   });
 
 } catch (error) {

@@ -137,6 +137,7 @@ Util.checkJWTToken = (req, res, next) => {
     res.locals.account_email = accountData.account_email;
     res.locals.account_type = accountData.account_type;
     res.locals.account_id = accountData.account_id;
+    res.locals.screen_name = accountData.account_firstname.charAt(0) + accountData.account_lastname;
      next()
     })
   } else {
@@ -197,7 +198,7 @@ Util.checkLogin = (req, res, next) => {
 Util.getReviews = async function (inv_id) {
   let data = await revModel.getReviewsByInventoryId(inv_id);
   if (data.length === 0) {
-    return "<p>Be the first to write a review!</p>";
+    return "<p id='warning'>Be the first to write a review!</p>";
   }
   let list = "<ul>";
   data.forEach((row) => {
