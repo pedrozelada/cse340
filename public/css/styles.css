@@ -385,6 +385,10 @@ a:hover {
   margin: 0; 
 }
 
+#reviews li {
+  margin-top: 20px; 
+}
+
 #reviews hr {
   margin: 4px; 
 }
