@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const revModel = require("../models/review-model")
 const Util = {}
 
 // week5
@@ -188,4 +189,52 @@ Util.checkLogin = (req, res, next) => {
     }
   });
 }
+
+/* **************************************
+* Build Reviews
+* ************************************ */
+
+Util.getReviews = async function (inv_id) {
+  let data = await revModel.getReviewsByInventoryId(inv_id);
+  if (data.length === 0) {
+    return "<p>Be the first to write a review!</p>";
+  }
+  let list = "<ul>";
+  data.forEach((row) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = new Date(row.review_date).toLocaleDateString("en-US", options);
+    list += "<li>";
+    list += `<p><strong>${row.screen_name}</strong> wrote on ${formattedDate}</p>`;
+    list += "<hr style='border: 2px solid black;'>";
+    list += `<p>${row.review_text}</p>`;
+    list += "</li>";
+  });
+  list += "</ul>";
+  return list;
+};
+
+
+/* **************************************
+* Build Reviews User
+* ************************************ */
+
+Util.getReviewsUser = async function (account_id) {
+  let data = await revModel.getReviewsByAccountId(account_id);
+  if (data.length === 0) {
+    return "<p>Not reviews yet!</p>";
+  }
+  let list = "<ul>";
+  data.forEach((row, index) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = new Date(row.review_date).toLocaleDateString("en-US", options);
+    list += "<li>";
+    list += `<p>${index + 1}. Reviewed the ${row.inv_year} ${row.inv_make} ${row.inv_model} on ${formattedDate} | `;
+    list += `<a href='/review/edit-review/${row.review_id}' title='Click to update'>Edit</a> `;
+    list += `| <a href='/review/delete-review/${row.review_id}' title='Click to delete'>Delete</a>`;
+    list += "</p></li>";
+  });
+  list += "</ul>";
+  return list;
+};
+
 module.exports = Util

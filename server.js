@@ -24,7 +24,8 @@ const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
 const managementRoute = require("./routes/managementRoute") // week4 management
 const cookieParser = require("cookie-parser")  // week5 Login and cookie
-
+// project
+const reviewRoute = require("./routes/reviewRoute")
 
 /* week4***********************
  * Middleware
@@ -77,6 +78,7 @@ app.use("/inv", detailRoute)
 //week4 
 app.use("/account", accountRoute)
 app.use("/inv", managementRoute) // week4 management
+app.use("/review", reviewRoute) // project
 
 
 

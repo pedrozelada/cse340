@@ -380,7 +380,14 @@ a:hover {
   color: rgb(0, 106, 255);
 }
 
+/* Reviews */
+#reviews p {
+  margin: 0; 
+}
 
+#reviews hr {
+  margin: 4px; 
+}
 
 @media only screen and (min-width: 520px) {
   body {

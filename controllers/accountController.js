@@ -128,11 +128,14 @@ async function accountLogin(req, res) {
  *  Account view
  * ************************************ */
 async function buildAccount(req, res, next) {
+  const account_id = res.locals.account_id;
   let nav = await utilities.getNav()
+  let reviewsUser = await utilities.getReviewsUser(account_id)
   res.render("account/account", {
     title: "Account Management",
     nav,
     errors: null,
+    reviewsUser
   })
 }
 
